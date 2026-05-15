@@ -1,0 +1,890 @@
+/* ============================================================
+   DESIGN TOKENS
+   Restrained synthwave: dark glass, soft violet/cyan glows,
+   copper accent, clean type. No loud neon.
+   ============================================================ */
+:root {
+  /* --- Backgrounds --- */
+  --bg-base:    #0b0b12;                   /* near-black with blue-violet tint */
+  --bg-surface: #111118;                   /* slightly lighter surface */
+  --bg-raised:  #16161f;                   /* elevated panels */
+  --bg-glass:   rgba(14, 14, 22, 0.82);   /* glassmorphic card fill */
+  --bg-input:   rgba(255, 255, 255, 0.04);/* form field background */
+
+  /* --- Borders --- */
+  --border-dim:    rgba(255, 255, 255, 0.06);  /* resting card borders */
+  --border-mid:    rgba(255, 255, 255, 0.11);  /* control borders */
+  --border-violet: rgba(139, 92, 246, 0.40);   /* hover/focus highlight */
+  --border-cyan:   rgba(34, 211, 238, 0.30);   /* secondary highlight */
+
+  /* --- Typography --- */
+  --text-primary:   #dde0f0;  /* main readable text */
+  --text-secondary: #7272a0;  /* labels, subtitles */
+  --text-muted:     #40405a;  /* hints, disabled */
+
+  /* --- Accent palette --- */
+  --accent-violet:  #8b5cf6;  /* primary violet — buttons, focus rings */
+  --accent-cyan:    #22d3ee;  /* secondary cyan — links, "view" CTAs */
+  --accent-magenta: #d946ef;  /* tertiary magenta — used sparingly */
+  --accent-blue:    #3b82f6;  /* electric blue */
+  --accent-copper:  #c07a35;  /* bronze/copper — warm metallic accent */
+
+  /* --- Score colors (glowing, tonal) --- */
+  --score-high-fg:     #2dd4bf;
+  --score-high-bg:     rgba(45, 212, 191, 0.09);
+  --score-high-border: rgba(45, 212, 191, 0.22);
+  --score-high-glow:   rgba(45, 212, 191, 0.30);
+
+  --score-mid-fg:     #fbbf24;
+  --score-mid-bg:     rgba(251, 191, 36, 0.09);
+  --score-mid-border: rgba(251, 191, 36, 0.22);
+  --score-mid-glow:   rgba(251, 191, 36, 0.25);
+
+  --score-low-fg:     #fb7185;
+  --score-low-bg:     rgba(251, 113, 133, 0.08);
+  --score-low-border: rgba(251, 113, 133, 0.20);
+  --score-low-glow:   rgba(251, 113, 133, 0.25);
+
+  /* --- Shape --- */
+  --r-sm: 5px;
+  --r-md: 9px;
+  --r-lg: 13px;
+  --r-xl: 16px;
+
+  /* --- Motion --- */
+  --t-fast: 120ms ease;
+  --t-std:  220ms ease;
+
+  /* --- Elevation shadows --- */
+  --shadow-card:       0 4px 28px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  --shadow-card-hover: 0 8px 36px rgba(0, 0, 0, 0.65), 0 0 0 1px var(--border-violet), inset 0 1px 0 rgba(255, 255, 255, 0.07);
+  --shadow-btn:        0 0 18px rgba(109, 40, 217, 0.40);
+  --shadow-btn-hover:  0 0 28px rgba(109, 40, 217, 0.60);
+  --shadow-teal-btn:   0 0 16px rgba(13, 148, 136, 0.35);
+}
+
+/* ============================================================
+   RESET
+   ============================================================ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ============================================================
+   BASE
+   ============================================================ */
+html, body, #root {
+  min-height: 100vh;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif;
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+
+  /* Subtle violet grid — the defining texture of this design.
+     Very low opacity so it reads as depth, not decoration. */
+  background-image:
+    linear-gradient(rgba(139, 92, 246, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(139, 92, 246, 0.035) 1px, transparent 1px);
+  background-size: 52px 52px;
+  background-attachment: fixed;
+}
+
+/* Page container — max-width, centered */
+#root {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 20px 60px;
+}
+
+/* ============================================================
+   SCROLLBAR
+   ============================================================ */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--bg-base); }
+::-webkit-scrollbar-thumb { background: rgba(139, 92, 246, 0.28); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent-violet); }
+
+/* ============================================================
+   GLOBAL LINKS
+   ============================================================ */
+a {
+  color: var(--accent-cyan);
+  text-decoration: none;
+  transition: color var(--t-fast), opacity var(--t-fast);
+}
+a:hover { color: #fff; }
+
+/* ============================================================
+   FORM CONTROLS — shared across Header, Settings, etc.
+   ============================================================ */
+.field-textarea {
+  font-family: inherit;
+  font-size: 13px;
+  color: var(--text-primary);
+  background: var(--bg-input);
+  border: 1px solid var(--border-mid);
+  border-radius: var(--r-sm);
+  padding: 10px 12px;
+  outline: none;
+  resize: vertical;
+  width: 100%;
+  line-height: 1.6;
+  transition: border-color var(--t-fast), box-shadow var(--t-fast);
+}
+.field-textarea::placeholder { color: var(--text-muted); }
+.field-textarea:focus {
+  border-color: var(--accent-violet);
+  box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.18);
+}
+
+.field-input,
+.field-select {
+  font-family: inherit;
+  font-size: 13px;
+  color: var(--text-primary);
+  background: var(--bg-input);
+  border: 1px solid var(--border-mid);
+  border-radius: var(--r-sm);
+  padding: 7px 10px;
+  outline: none;
+  transition: border-color var(--t-fast), box-shadow var(--t-fast);
+}
+
+.field-input::placeholder { color: var(--text-muted); }
+
+.field-input:focus,
+.field-select:focus {
+  border-color: var(--accent-violet);
+  box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.18);
+}
+
+/* Custom dropdown arrow using inline SVG */
+.field-select {
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%237272a0' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-color: var(--bg-input);
+  padding-right: 28px;
+}
+
+input[type="range"] { accent-color: var(--accent-violet); cursor: pointer; }
+input[type="checkbox"] { accent-color: var(--accent-violet); cursor: pointer; }
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+
+/* Primary — gradient violet→blue with glow. Used for CTAs. */
+.btn-primary {
+  background: linear-gradient(135deg, #6d28d9 0%, #2563eb 100%);
+  color: #fff;
+  border: none;
+  border-radius: var(--r-md);
+  padding: 8px 20px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  letter-spacing: 0.025em;
+  box-shadow: var(--shadow-btn);
+  transition: opacity var(--t-fast), box-shadow var(--t-fast);
+}
+.btn-primary:hover:not(:disabled) {
+  opacity: 0.87;
+  box-shadow: var(--shadow-btn-hover);
+}
+.btn-primary:disabled { opacity: 0.35; cursor: not-allowed; box-shadow: none; }
+
+/* Ghost — translucent, for secondary/dismiss actions */
+.btn-ghost {
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-mid);
+  border-radius: var(--r-md);
+  padding: 7px 14px;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color var(--t-fast), border-color var(--t-fast), background var(--t-fast);
+}
+.btn-ghost:hover:not(:disabled) {
+  color: var(--text-primary);
+  border-color: var(--border-violet);
+  background: rgba(139, 92, 246, 0.07);
+}
+.btn-ghost:disabled { opacity: 0.35; cursor: not-allowed; }
+
+/* Teal — "Mark as Applied" success action */
+.btn-teal {
+  background: linear-gradient(135deg, #0d9488 0%, #0891b2 100%);
+  color: #fff;
+  border: none;
+  border-radius: var(--r-md);
+  padding: 8px 18px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  box-shadow: var(--shadow-teal-btn);
+  transition: opacity var(--t-fast), box-shadow var(--t-fast);
+}
+.btn-teal:hover:not(:disabled) { opacity: 0.87; box-shadow: 0 0 24px rgba(13, 148, 136, 0.50); }
+.btn-teal:disabled { opacity: 0.35; cursor: not-allowed; }
+
+/* Cancel — ghost with rose tint, only shown during active scans */
+.btn-cancel {
+  background: transparent;
+  color: var(--score-low-fg);
+  border: 1px solid var(--score-low-border);
+  border-radius: var(--r-md);
+  padding: 7px 16px;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background var(--t-fast), border-color var(--t-fast);
+}
+.btn-cancel:hover { background: var(--score-low-bg); border-color: var(--score-low-fg); }
+
+/* ============================================================
+   SCAN PROGRESS BAR
+   Replaces the command bar controls while a scan is running.
+   ============================================================ */
+.scan-progress-wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  min-width: 0;
+}
+
+.scan-status-text {
+  font-size: 12px;
+  color: var(--text-secondary);
+  letter-spacing: 0.02em;
+}
+
+.scan-progress-bar {
+  height: 3px;
+  background: var(--border-dim);
+  border-radius: 2px;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Sweeping violet→cyan band — indeterminate animation */
+.scan-progress-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 42%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--accent-violet) 35%,
+    var(--accent-cyan) 70%,
+    transparent 100%
+  );
+  animation: scan-sweep 1.8s ease-in-out infinite;
+}
+
+@keyframes scan-sweep {
+  from { transform: translateX(-130%); }
+  to   { transform: translateX(340%);  }
+}
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+.header-root {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  padding: 16px 0 14px;
+  margin-bottom: 28px;
+
+  /* Dark glass so scrolled content disappears beneath it */
+  background: rgba(11, 11, 18, 0.93);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+/* The gradient border-bottom — the signature synthwave horizon line */
+.header-root::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: -20px;   /* bleeds to #root padding edge */
+  right: -20px;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(139, 92, 246, 0.55) 30%,
+    rgba(34, 211, 238, 0.50) 70%,
+    transparent 100%
+  );
+}
+
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 14px;
+}
+
+/* Gradient title — the one restrained "retro" typographic moment */
+.header-title {
+  font-size: 21px;
+  font-weight: 700;
+  letter-spacing: -0.4px;
+  background: linear-gradient(90deg, #a78bfa 0%, #38bdf8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.header-sub {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-top: 5px;
+  letter-spacing: 0.01em;
+}
+
+/* Settings link — ghost nav pill */
+.header-settings-link {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-mid);
+  border-radius: var(--r-md);
+  padding: 6px 14px;
+  letter-spacing: 0.02em;
+  transition: color var(--t-fast), border-color var(--t-fast), background var(--t-fast);
+}
+.header-settings-link:hover {
+  color: var(--text-primary);
+  border-color: var(--border-violet);
+  background: rgba(139, 92, 246, 0.08);
+}
+
+/* "Command bar" — the scan control row */
+.header-scan-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid var(--border-dim);
+  border-radius: var(--r-md);
+}
+
+.header-controls {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.header-filter {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.header-label {
+  font-size: 12px;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.header-label strong {
+  color: var(--accent-violet);
+  font-weight: 600;
+}
+
+.header-slider { width: 130px; }
+
+.header-checkboxes { display: flex; gap: 16px; }
+
+.header-check-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  user-select: none;
+  transition: color var(--t-fast);
+}
+.header-check-label:hover { color: var(--text-primary); }
+
+/* ============================================================
+   SCORE BADGE — glowing tonal pill next to each job title
+   ============================================================ */
+.score-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 16px;
+  border-radius: var(--r-md);
+  padding: 6px 12px;
+  flex-shrink: 0;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.4px;
+  border: 1px solid transparent;
+  min-width: 52px;
+  text-align: center;
+}
+
+.score-badge--high {
+  color: var(--score-high-fg);
+  background: var(--score-high-bg);
+  border-color: var(--score-high-border);
+  box-shadow: 0 0 16px var(--score-high-glow);
+}
+.score-badge--mid {
+  color: var(--score-mid-fg);
+  background: var(--score-mid-bg);
+  border-color: var(--score-mid-border);
+  box-shadow: 0 0 14px var(--score-mid-glow);
+}
+.score-badge--low {
+  color: var(--score-low-fg);
+  background: var(--score-low-bg);
+  border-color: var(--score-low-border);
+  box-shadow: 0 0 14px var(--score-low-glow);
+}
+
+/* ============================================================
+   PILLS — source badge + applied tag
+   ============================================================ */
+.pill {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.065em;
+  text-transform: uppercase;
+  border-radius: 4px;
+  padding: 2px 7px;
+  vertical-align: middle;
+  line-height: 1.6;
+}
+
+/* Indigo — which board the listing came from */
+.pill--source {
+  color: #a78bfa;
+  background: rgba(139, 92, 246, 0.12);
+  border: 1px solid rgba(139, 92, 246, 0.22);
+}
+
+/* Teal — applied status */
+.pill--applied {
+  color: var(--score-high-fg);
+  background: var(--score-high-bg);
+  border: 1px solid var(--score-high-border);
+}
+
+/* ============================================================
+   JOB CARD — the main workhorse component
+   ============================================================ */
+.job-card {
+  background: var(--bg-glass);
+  border: 1px solid var(--border-dim);
+  border-radius: var(--r-xl);
+  padding: 20px 24px;
+  margin-bottom: 12px;
+  box-shadow: var(--shadow-card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: box-shadow var(--t-std), border-color var(--t-std), opacity var(--t-std);
+}
+.job-card:hover {
+  box-shadow: var(--shadow-card-hover);
+  border-color: var(--border-violet);
+}
+
+/* Applied — teal border variant */
+.job-card--applied { border-color: var(--score-high-border); }
+.job-card--applied:hover {
+  border-color: var(--score-high-fg);
+  box-shadow: 0 8px 36px rgba(0,0,0,0.65), 0 0 0 1px var(--score-high-border), inset 0 1px 0 rgba(255,255,255,0.07);
+}
+
+/* Dismissed — dimmed but still readable */
+.job-card--dismissed { opacity: 0.42; }
+.job-card--dismissed:hover { opacity: 0.65; }
+
+.job-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+
+.job-card-meta { flex: 1; min-width: 0; }
+
+.job-card-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 5px;
+  line-height: 1.3;
+}
+
+.job-card-company {
+  font-size: 12px;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0;
+  line-height: 1.8;
+}
+
+.job-card-dot {
+  margin: 0 6px;
+  color: var(--text-muted);
+}
+
+.job-card-salary { color: var(--score-high-fg); font-weight: 500; }
+
+.job-card-summary {
+  font-size: 13px;
+  color: #8a8ab8;
+  line-height: 1.65;
+  margin-bottom: 12px;
+}
+
+.job-card-bullets { padding-left: 18px; margin-bottom: 14px; }
+
+.job-card-bullet {
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin-bottom: 2px;
+}
+/* Bullet marker color */
+.job-card-bullets li::marker { color: var(--accent-violet); }
+
+.job-card-footer {
+  border-top: 1px solid var(--border-dim);
+  padding-top: 12px;
+  margin-top: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.job-card-footer-left {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.job-card-scraped {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.job-card-view-link {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--accent-cyan);
+  letter-spacing: 0.02em;
+}
+.job-card-view-link:hover { color: #fff; }
+
+.job-card-actions { display: flex; gap: 8px; }
+
+/* ============================================================
+   DASHBOARD — error + empty states
+   ============================================================ */
+.dashboard-error {
+  background: var(--score-low-bg);
+  color: var(--score-low-fg);
+  border: 1px solid var(--score-low-border);
+  border-radius: var(--r-lg);
+  padding: 14px 18px;
+  margin-bottom: 16px;
+  font-size: 13px;
+}
+
+.dashboard-empty {
+  background: var(--bg-glass);
+  border: 1px dashed var(--border-mid);
+  border-radius: var(--r-xl);
+  padding: 52px 40px;
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 14px;
+  backdrop-filter: blur(8px);
+}
+
+.dashboard-empty strong { color: var(--accent-violet); }
+
+/* ============================================================
+   APPLY PAGE
+   ============================================================ */
+.apply-page {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 32px 0 60px;
+}
+
+.apply-card {
+  background: var(--bg-glass);
+  border: 1px solid var(--border-dim);
+  border-radius: var(--r-xl);
+  padding: 28px 32px;
+  box-shadow: var(--shadow-card);
+  backdrop-filter: blur(12px);
+}
+
+.apply-job-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 22px;
+}
+
+.apply-job-title {
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 5px;
+  letter-spacing: -0.2px;
+}
+
+.apply-job-company {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.apply-view-link {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent-cyan);
+  white-space: nowrap;
+}
+.apply-view-link:hover { color: #fff; }
+
+.apply-divider {
+  border: none;
+  border-top: 1px solid var(--border-dim);
+  margin: 22px 0;
+}
+
+.apply-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+}
+
+.apply-action-block { display: flex; flex-direction: column; gap: 10px; }
+
+.apply-action-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: 0.01em;
+}
+
+.apply-action-desc {
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.apply-download-link {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--score-high-fg);
+}
+.apply-download-link:hover { color: #fff; }
+
+.apply-error-sm { font-size: 11px; color: var(--score-low-fg); }
+
+.apply-applied-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.apply-applied-text { font-size: 13px; color: var(--score-high-fg); }
+.apply-muted { font-size: 13px; color: var(--text-secondary); }
+
+.apply-load-error { font-size: 14px; color: var(--score-low-fg); padding: 32px 0; }
+
+/* ============================================================
+   SETTINGS PAGE
+   ============================================================ */
+.settings-page {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 32px 0 60px;
+}
+
+.settings-page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 32px;
+}
+
+.settings-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin-bottom: 10px;
+  letter-spacing: 0.02em;
+  transition: color var(--t-fast);
+}
+.settings-back:hover { color: var(--text-primary); }
+
+.settings-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+  letter-spacing: -0.2px;
+}
+
+.settings-sub { font-size: 12px; color: var(--text-secondary); }
+
+.settings-save-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-top: 36px;
+}
+
+.settings-saved-msg {
+  font-size: 12px;
+  color: var(--score-high-fg);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+.settings-error {
+  background: var(--score-low-bg);
+  color: var(--score-low-fg);
+  border: 1px solid var(--score-low-border);
+  border-radius: var(--r-lg);
+  padding: 14px 18px;
+  margin-bottom: 16px;
+  font-size: 13px;
+}
+
+.settings-card {
+  background: var(--bg-glass);
+  border: 1px solid var(--border-dim);
+  border-radius: var(--r-xl);
+  padding: 22px 26px;
+  margin-bottom: 14px;
+  box-shadow: var(--shadow-card);
+  backdrop-filter: blur(12px);
+  transition: opacity var(--t-std), border-color var(--t-std);
+}
+.settings-card:hover { border-color: var(--border-mid); }
+.settings-card--disabled { opacity: 0.52; }
+
+.settings-card-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border-dim);
+}
+
+.settings-enable-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.settings-source-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: 0.01em;
+}
+
+/* Small "DISABLED" tag that appears next to unchecked sources */
+.settings-disabled-tag {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border-dim);
+  border-radius: 4px;
+  padding: 2px 8px;
+}
+
+/* ============================================================
+   PROFILE PAGE
+   ============================================================ */
+.profile-section .settings-card-header { margin-bottom: 12px; }
+
+.profile-section-desc {
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.65;
+  margin-bottom: 14px;
+}
+
+.profile-section-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.header-nav { display: flex; gap: 8px; }
+
+.settings-fields {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  align-items: flex-end;
+}
+
+.settings-field { display: flex; flex-direction: column; gap: 6px; }
+
+.settings-field-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}

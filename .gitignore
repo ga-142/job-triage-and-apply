@@ -1,0 +1,24 @@
+# Secrets and personal data — never commit these
+.env
+backend/resume.txt
+backend/resume.json
+backend/writing_sample.txt
+backend/document_instructions.txt
+
+# Databases
+*.db
+
+# Generated documents
+assets/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# Node / frontend
+node_modules/
+frontend/dist/
+
+# Docker
+.docker/

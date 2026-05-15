@@ -1,0 +1,32 @@
+Your Name
+your@email.com | 555-555-5555 | linkedin.com/in/yourprofile | github.com/yourhandle
+
+SUMMARY
+Senior software engineer with 8 years of experience building backend services and distributed systems. Focused on reliability, observability, and pragmatic architecture. Comfortable owning infrastructure end-to-end.
+
+EXPERIENCE
+
+Senior Software Engineer — Acme Corp (2021–present)
+- Built and maintained REST APIs serving 2M requests/day on AWS ECS with Python and FastAPI
+- Led migration from monolith to microservices, reducing average deploy time from 45 minutes to 8
+- Designed observability stack (Datadog, structured logging, distributed tracing) adopted across 4 teams
+- Automated database schema migrations with zero-downtime deploys across 12 production services
+
+Software Engineer — Widgets Inc (2018–2021)
+- Owned backend for e-commerce checkout flow processing $50M in annual GMV
+- Reduced p99 latency from 800ms to 120ms by profiling and rewriting hot query paths
+- Built internal admin tooling used daily by 60+ operations staff, eliminating a manual spreadsheet process
+
+Junior Software Engineer — Startup LLC (2016–2018)
+- Developed features across a Ruby on Rails monolith serving 500k monthly active users
+- Wrote integration tests that caught 3 production-impacting regressions before release
+
+SKILLS
+Python, TypeScript, Go, SQL, PostgreSQL, Redis, AWS (ECS, RDS, S3, Lambda), Docker, Kubernetes,
+FastAPI, Django, React, Terraform, Datadog, GitHub Actions, REST APIs, gRPC
+
+EDUCATION
+B.S. Computer Science — State University (2016)
+
+PREFERENCES
+Remote or hybrid | Open to senior, staff, and lead roles

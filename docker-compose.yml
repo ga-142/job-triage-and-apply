@@ -1,0 +1,59 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    env_file: .env
+    environment:
+      - DB_PATH=/data/jobs.db
+      - ASSETS_PATH=/assets
+    volumes:
+      - db_data:/data
+      - ./assets:/assets
+      - ./backend:/app   # personal files (resume, writing sample, instructions) read live from host
+    # Lets the container resolve "host.docker.internal" to the host machine,
+    # so OLLAMA_BASE_URL=http://host.docker.internal:11434 reaches a locally
+    # running Ollama without needing the ollama Docker service.
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+  # Optional local LLM backend — only starts when you pass --profile ollama.
+  #
+  # Usage:
+  #   docker compose --profile ollama up -d
+  #   docker compose exec ollama ollama pull qwen2.5:7b
+  #
+  # Set in .env:
+  #   LLM_PROVIDER=ollama
+  #   OLLAMA_BASE_URL=http://ollama:11434
+  ollama:
+    image: ollama/ollama:latest
+    profiles: [ollama]
+    ports:
+      - "11434:11434"   # expose so you can also run `ollama` CLI from the host
+    volumes:
+      - ollama_data:/root/.ollama   # models persist across container restarts
+    restart: unless-stopped
+    # Uncomment the block below to enable GPU passthrough on a machine with an
+    # NVIDIA GPU and the NVIDIA Container Toolkit installed:
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: 1
+    #           capabilities: [gpu]
+
+volumes:
+  db_data:
+  ollama_data:

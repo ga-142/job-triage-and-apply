@@ -1,0 +1,89 @@
+{
+  "name": "Jane Smith",
+  "title": "Senior Software Engineer",
+  "contact": {
+    "email": "jane@example.com",
+    "phone": "555-000-0000",
+    "linkedin": "linkedin.com/in/janesmith"
+  },
+  "summary": "Full-stack software engineer with 8 years of experience building scalable web applications and data pipelines. Strong background in Python, Django, and cloud infrastructure. Passionate about clean code, developer tooling, and mentoring junior engineers.",
+  "skills": [
+    "Python", "Django", "FastAPI", "PostgreSQL", "Redis",
+    "JavaScript", "TypeScript", "React", "Node.js",
+    "AWS (EC2, S3, Lambda, RDS)", "Docker", "Kubernetes", "CI/CD",
+    "Git", "GitHub", "REST APIs", "GraphQL",
+    "Linux", "Bash"
+  ],
+  "experience": [
+    {
+      "company": "Acme Corp",
+      "location": "Remote",
+      "title": "Senior Software Engineer",
+      "start": "2021-03",
+      "end": "Present",
+      "bullets": [
+        "Led development of a real-time data ingestion pipeline processing 500k events/day using Kafka and PostgreSQL.",
+        "Reduced API response times by 60% by introducing Redis caching and query optimization across the core SaaS platform.",
+        "Mentored a team of 4 junior engineers through weekly code reviews and pair programming sessions.",
+        "Designed and shipped a self-serve customer reporting dashboard used by 200+ enterprise clients.",
+        "Migrated legacy monolith to a modular service architecture, reducing deploy times from 45 minutes to under 5."
+      ]
+    },
+    {
+      "company": "Bright Labs",
+      "location": "San Francisco, CA",
+      "title": "Software Engineer",
+      "start": "2018-06",
+      "end": "2021-02",
+      "bullets": [
+        "Built and maintained a Django REST API serving 3M monthly active users.",
+        "Implemented OAuth 2.0 SSO integration with Google, GitHub, and Okta.",
+        "Automated infrastructure provisioning with Terraform and AWS, reducing manual ops work by 80%.",
+        "Developed an internal admin tooling suite that cut customer support resolution time by 40%.",
+        "Contributed to open-source libraries used by the broader Django community."
+      ]
+    },
+    {
+      "company": "Freelance",
+      "location": "Remote",
+      "title": "Full Stack Developer",
+      "start": "2016-01",
+      "end": "2018-05",
+      "bullets": [
+        "Delivered custom web applications for 10+ clients across e-commerce, healthcare, and SaaS verticals.",
+        "Built React frontends and Node.js backends, integrating third-party APIs including Stripe and Twilio.",
+        "Managed client relationships, project scoping, and delivery end-to-end."
+      ]
+    }
+  ],
+  "education": [
+    {
+      "school": "California Polytechnic State University",
+      "degree": "B.S. Computer Science",
+      "year": "2016"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "AWS Certified Solutions Architect – Associate",
+      "issuer": "Amazon Web Services",
+      "year": "2022"
+    }
+  ],
+  "side_projects": [
+    {
+      "name": "Patchwork",
+      "description": "Open-source CLI tool for managing dotfiles across multiple machines using Git and symlinks."
+    },
+    {
+      "name": "Budgeteer",
+      "description": "Personal finance tracker built with FastAPI and React, with bank transaction import via Plaid API."
+    }
+  ],
+  "preferences": {
+    "remote": true,
+    "locations": ["Remote", "San Francisco, CA"],
+    "seniority": "Senior / Staff",
+    "company_size": "Startup to mid-size"
+  }
+}
