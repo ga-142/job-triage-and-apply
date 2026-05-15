@@ -2,19 +2,32 @@
 
 A personal AI-powered job listing scanner and application assistant. Pulls listings from multiple job boards, scores each one against your resume, and generates tailored resumes and cover letters — all running locally.
 
+The documents it produces actually sound like you. Feed it a writing sample and a set of style rules ("no buzzwords, no inflated claims, write like an engineer not a recruiter") and the AI follows them. Point it at a cheap local model for bulk scoring and a stronger cloud API for the documents that matter. Everything is configurable without touching code.
+
 ## Features
 
+### Scanning and scoring
 - **Multi-source scanning** — Adzuna, Remotive, Remote OK, and The Muse in one dashboard
 - **AI scoring** — every listing is scored 1–100 against your resume with a plain-English explanation of why it does or doesn't fit
-- **Tailored documents** — generate a role-specific resume and cover letter (DOCX) for any listing with one click
-- **Three AI providers** — Anthropic Claude, OpenAI, or a local Ollama model; swap with a single env var
-- **Model routing** — use a fast local model for scoring and a stronger cloud API for document generation, independently configured
-- **Writing style matching** — supply a writing sample and document instructions so generated documents match your voice and avoid your pet peeves
-- **Profile page** — edit your resume, writing sample, and document instructions directly in the UI; changes take effect immediately
-- **Job management** — dismiss listings you're not interested in, mark jobs as applied
 - **Background scanning** — scans run in the background so you can keep browsing; progress bar with cancel button
 - **Configurable daily auto-scan** — set keywords, location, and result count per source from the Settings page
 - **Deduplication** — listings already in the database are never re-analyzed
+
+### Document generation
+- **Tailored documents** — generate a role-specific resume and cover letter (DOCX) for any listing with one click
+- **Writing sample** — paste a few paragraphs of your own writing and the AI mirrors your tone across every document it generates
+- **Document instructions** — ban buzzwords, enforce a style, set rules the AI must follow: *"no 'passionate', no inflated metrics, write like an engineer explaining real work to another engineer"*
+- **Sounds like you, not ChatGPT** — the combination of writing sample + explicit instructions produces output that's actually usable without a full rewrite
+
+### AI and infrastructure
+- **Three AI providers** — Anthropic Claude, OpenAI, or a local Ollama model; swap with a single env var, no rebuild required
+- **Model routing** — `SCORING_PROVIDER` and `DOCUMENT_PROVIDER` are configured independently. Run a fast free local model for bulk scoring and reserve the stronger cloud API for the cover letters you actually send
+- **Profile page** — edit your resume, writing sample, and document instructions directly in the UI; changes take effect on the next generation without a restart
+
+### Job management
+- **Dismiss / undismiss** — gray out listings you're not interested in
+- **Applied tracking** — mark jobs as applied; applied listings get a teal border in the dashboard
+- **Filtering and sorting** — by score, date scraped, and time window
 - **Dark synthwave UI** — because why not
 
 ## Stack
