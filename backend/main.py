@@ -13,6 +13,9 @@ from fastapi.responses import FileResponse
 load_dotenv()
 
 from ai import (
+    DOCUMENT_INSTRUCTIONS_PATH,
+    RESUME_PATH,
+    WRITING_SAMPLE_PATH,
     generate_cover_letter,
     generate_resume,
     invalidate_document_instructions_cache,
@@ -58,12 +61,9 @@ _document_provider = os.getenv("DOCUMENT_PROVIDER", _default_provider).lower()
 REQUIRED_ENV_VARS = ["ADZUNA_APP_ID", "ADZUNA_APP_KEY"]
 for _key in filter(None, {_required_api_key(_scoring_provider), _required_api_key(_document_provider)}):
     REQUIRED_ENV_VARS.append(_key)
-ASSETS_PATH                = Path(os.getenv("ASSETS_PATH", "/assets"))
-_BACKEND_DIR               = Path(__file__).parent
-_RESUME_TXT_PATH           = _BACKEND_DIR / "resume.txt"
-_RESUME_JSON_PATH          = _BACKEND_DIR / "resume.json"   # legacy fallback
-_WRITING_SAMPLE_PATH       = _BACKEND_DIR / "writing_sample.txt"
-_DOCUMENT_INSTRUCTIONS_PATH = _BACKEND_DIR / "document_instructions.txt"
+ASSETS_PATH = Path(os.getenv("ASSETS_PATH", "/assets"))
+# Profile file paths are imported from ai.py so both modules always agree on location.
+_RESUME_JSON_PATH = RESUME_PATH.parent / "resume.json"   # legacy fallback for GET
 
 scheduler = BackgroundScheduler()
 
@@ -232,7 +232,7 @@ def update_settings(settings: list[SourceSetting]):
 
 @app.get("/api/profile/resume")
 def get_resume():
-    for path in [_RESUME_TXT_PATH, _RESUME_JSON_PATH]:
+    for path in [RESUME_PATH, _RESUME_JSON_PATH]:
         if path.exists():
             return {"content": path.read_text()}
     return {"content": ""}
@@ -240,34 +240,34 @@ def get_resume():
 
 @app.post("/api/profile/resume")
 def save_resume(body: ProfileContent):
-    _RESUME_TXT_PATH.write_text(body.content)
+    RESUME_PATH.write_text(body.content)
     invalidate_resume_cache()
     return {"ok": True}
 
 
 @app.get("/api/profile/writing-sample")
 def get_writing_sample():
-    if _WRITING_SAMPLE_PATH.exists():
-        return {"content": _WRITING_SAMPLE_PATH.read_text()}
+    if WRITING_SAMPLE_PATH.exists():
+        return {"content": WRITING_SAMPLE_PATH.read_text()}
     return {"content": ""}
 
 
 @app.post("/api/profile/writing-sample")
 def save_writing_sample(body: ProfileContent):
-    _WRITING_SAMPLE_PATH.write_text(body.content)
+    WRITING_SAMPLE_PATH.write_text(body.content)
     invalidate_writing_sample_cache()
     return {"ok": True}
 
 
 @app.get("/api/profile/instructions")
 def get_instructions():
-    if _DOCUMENT_INSTRUCTIONS_PATH.exists():
-        return {"content": _DOCUMENT_INSTRUCTIONS_PATH.read_text()}
+    if DOCUMENT_INSTRUCTIONS_PATH.exists():
+        return {"content": DOCUMENT_INSTRUCTIONS_PATH.read_text()}
     return {"content": ""}
 
 
 @app.post("/api/profile/instructions")
 def save_instructions(body: ProfileContent):
-    _DOCUMENT_INSTRUCTIONS_PATH.write_text(body.content)
+    DOCUMENT_INSTRUCTIONS_PATH.write_text(body.content)
     invalidate_document_instructions_cache()
     return {"ok": True}
