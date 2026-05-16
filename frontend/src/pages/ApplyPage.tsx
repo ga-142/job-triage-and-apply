@@ -111,7 +111,7 @@ export default function ApplyPage() {
           <div className="apply-action-block">
             <h2 className="apply-action-title">Tailored Resume</h2>
             <p className="apply-action-desc">
-              Claude rewrites your resume emphasizing skills and experience relevant to this role.
+              AI rewrites your resume emphasizing skills and experience relevant to this role.
             </p>
             <button
               className="btn-primary"
@@ -138,7 +138,7 @@ export default function ApplyPage() {
           <div className="apply-action-block">
             <h2 className="apply-action-title">Cover Letter</h2>
             <p className="apply-action-desc">
-              Claude writes a tailored cover letter addressed to the hiring contact if found in the posting.
+              AI writes a tailored cover letter addressed to the hiring contact if found in the posting.
             </p>
             <button
               className="btn-primary"
