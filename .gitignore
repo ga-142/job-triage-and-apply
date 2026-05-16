@@ -1,3 +1,6 @@
+# Personal / local-only files
+TouchTest.md
+
 # Secrets and personal data — never commit these
 .env
 backend/resume.txt
